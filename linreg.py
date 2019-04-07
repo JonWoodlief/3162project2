@@ -31,23 +31,31 @@ if __name__ == "__main__":
   # and the remaining elements constitute x_i
   yxinputFile = sc.textFile(sys.argv[1])
 
-  yxlines = yxinputFile.map(lambda line: line.split(','))
-  #yxfirstline = yxlines.first()
-  #yxlength = len(yxfirstline)
-  #print "yxlength: ", yxlength
+  a = yxinputFile.map(lambda line: line.split(',')).map(lambda r:float(r[1])*float(r[1]))
+  b = yxinputFile.map(lambda line: line.split(',')).map(lambda r:float(r[0])*float(r[1]))
+
+  aSum = a.reduce(lambda a, b:a+b)
+  bSum = b.reduce(lambda a, b:a+b)
+
+  result = aSum**-1 * bSum
+
+  print "xxSum"
+  print aSum
+  print "xySum"
+  print bSum
+  print "beta"
+  print result
 
   # dummy floating point array for beta to illustrate desired output format
-  beta = np.zeros(yxlength, dtype=float)
 
   #
   # Add your code here to compute the array of 
   # linear regression coefficients beta.
   # You may also modify the above code if needed.
   #
+ 
+ #xy = sc.textFile(sys.argv[1]).map(lambda line: line.split(','))
 
-  # print the linear regression coefficients in desired output format
-  print "beta: "
-  for coeff in beta:
-      print coeff
+  # print the linear regression coefficients in desired output format print "beta: "
 
   sc.stop()
